@@ -6,6 +6,7 @@
 package tp2.rit;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 /**
  *
@@ -58,9 +59,31 @@ public static List sacarTXT(){
      */
     public static void main(String[] args) {
         
-        
+        String linea="";
         List cadena = sacarTXT();
-        System.out.println(cadena);
+        int contador = 0;
+        
+        //para iterar la lista con las líneas del txt
+        Iterator it = cadena.iterator();
+        
+        while(it.hasNext()){
+            linea=it.next().toString(); //combierte el object del arraylist en string 
+            
+            //buscar la palabra DOCTYPE
+            int indice = linea.indexOf("<!DOCTYPE html");
+            
+            if (indice!=-1){ //si el indice es diferente de -1 entonces encontró la cadena <!DOCTYPE html
+                System.out.println("Aqui hay una*****");
+                contador=contador+1;
+            }
+      
+            
+        }
+        System.out.println(contador);
+            
+            
+
+        
       
       
       
