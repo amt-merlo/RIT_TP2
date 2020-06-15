@@ -24,7 +24,7 @@ public static List sacarTXT(){
     try {
          // Apertura del fichero y creacion de BufferedReader para poder
          // hacer una lectura comoda (disponer del metodo readLine()).
-         archivo = new File ("C:\\Users\\Allison\\Downloads\\wiki-p2.txt");
+         archivo = new File ("C:\\Users\\Allison\\Downloads\\wiki-g2.txt");
          fr = new FileReader (archivo);
          br = new BufferedReader(fr);
 
@@ -49,19 +49,15 @@ public static List sacarTXT(){
          }
       }
     
-    return lista;
+    return lista; //devuelve un arraylist con las lineas del txt
     } 
 
-
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
+    public static List dividirPaginas(List cadena){
+        String linea="", pagina="";
         
-        String linea="";
-        List cadena = sacarTXT();
-        int contador = 0;
+        int contador = 0, bandera = 0; 
+        List paginas = new ArrayList(); //arraylist final con el txt separado por páginas
+        
         
         //para iterar la lista con las líneas del txt
         Iterator it = cadena.iterator();
@@ -70,16 +66,44 @@ public static List sacarTXT(){
             linea=it.next().toString(); //combierte el object del arraylist en string 
             
             //buscar la palabra DOCTYPE
-            int indice = linea.indexOf("<!DOCTYPE html");
+            int indiceInicio = linea.indexOf("<!DOCTYPE html");
+            int indiceFinal = linea.indexOf("</html>");
             
-            if (indice!=-1){ //si el indice es diferente de -1 entonces encontró la cadena <!DOCTYPE html
-                System.out.println("Aqui hay una*****");
-                contador=contador+1;
+            if (indiceInicio!=-1){ //si el indice es diferente de -1 entonces encontró la cadena <!DOCTYPE html donde la nueva página inicia
+                
+                contador=contador+1; //para saber cuántas páginas hay
+                bandera=1; //para que agrege la linea al String de la página
+                
+            }else if(indiceFinal!=-1){ //si el indice es diferente de -1 entonces encontró el final de la página
+                
+                pagina = pagina+linea+"\n"; //agrega la última linea
+                bandera=0; //para que agregue la página a la lista y se reinicie
             }
       
+            //si la bandera está en 1 agrega la línea al String de la página, si está en 0 agrega el String a la lista y lo vacía 
+            if (bandera == 1){
+                pagina = pagina+linea+"\n";
+            }else{
+                paginas.add(pagina);
+                pagina = "";
+            }
             
         }
         System.out.println(contador);
+        
+        return paginas;
+    }
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        
+        List cadena = sacarTXT(); //devuelve una lista con las lineas del txt
+        List paginas = dividirPaginas(cadena); //devuelve una lista con las paginas
+        System.out.println(paginas.get(0));
+        
+        
             
             
 
