@@ -3,20 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tp2.rit;
+package com.mycompany.luceneindex;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 /**
+
+/**
  *
  * @author Allison
  */
-
-
-public class main {
+public class main2 {
     
-public static List sacarTXT(){
+    public static List sacarTXT(){ //saca las lineas del txt y las guarda en una lista
     File archivo = null;
     FileReader fr = null;
     BufferedReader br = null;
@@ -52,10 +52,12 @@ public static List sacarTXT(){
     return lista; //devuelve un arraylist con las lineas del txt
     } 
 
-    public static List dividirPaginas(List cadena){
+    
+   
+    public static List dividirPaginas(List cadena){  //toma la lista con las lineas del txt y devuelve una lista con las páginas html
         String linea="", pagina="";
         
-        int contador = 0, bandera = 0; 
+        int contador = 0, bandera = 0; //contador para saber cantidad de paginas y bandera para saber cuándo agregar la linea al string de la página
         List paginas = new ArrayList(); //arraylist final con el txt separado por páginas
         
         
@@ -93,24 +95,13 @@ public static List sacarTXT(){
         
         return paginas;
     }
+    
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        
+    
+     public static void main(String[] args) {
         List cadena = sacarTXT(); //devuelve una lista con las lineas del txt
         List paginas = dividirPaginas(cadena); //devuelve una lista con las paginas
         System.out.println(paginas.get(0));
-        
-        
-            
-            
-
-        
-      
-      
-      
-    }
-    
+     }
 }
+
