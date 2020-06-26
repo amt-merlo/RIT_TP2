@@ -24,7 +24,7 @@ public class main2 {
     try {
          // Apertura del fichero y creacion de BufferedReader para poder
          // hacer una lectura comoda (disponer del metodo readLine()).
-         archivo = new File ("C:\\Users\\Allison\\Downloads\\wiki-g2.txt");
+         archivo = new File ("C:\\Users\\gabyg\\Downloads\\wiki-TP2\\wiki-g2.txt");
          fr = new FileReader (archivo);
          br = new BufferedReader(fr);
 
