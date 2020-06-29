@@ -10,6 +10,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 //para parsear el HTML
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -29,7 +35,7 @@ public class main {
     try {
          // Apertura del fichero y creacion de BufferedReader para poder
          // hacer una lectura comoda (disponer del metodo readLine()).
-         //archivo = new File ("C:\\Users\\gabyg\\Downloads\\wiki-TP2\\wiki-g2.txt");
+         archivo = new File ("C:\\Users\\gabyg\\Downloads\\wiki-TP2\\wiki-g2.txt");
          //archivo = new File ("C:\\Users\\Allison\\Downloads\\wiki-p2.txt");
          fr = new FileReader (archivo);
          br = new BufferedReader(fr);
@@ -108,7 +114,7 @@ public class main {
         List encabezados;
         List referencias;
         List body;
-        ArrayList partes = new ArrayList(4);
+        ArrayList partes = new ArrayList(5);
         
         //Saca el título
         String titulo = document.title();
@@ -122,8 +128,32 @@ public class main {
         partes.add(titulo);
         partes.add(encabezados);
         partes.add(referencias);
+        for(Object bod: body){
+            bod = removerStopWords(bod.toString());
+        }
         partes.add(body);
+        partes.add(pagina);
         return partes; //este array se usa para indexar
+    }
+    
+    public static String removerStopWords(String texto){
+        try{
+            String archivo = "C:\\Users\\gabyg\\Documents\\GitHub\\RIT_TP2\\stopwords.txt";
+            List<String> stopwords = Files.readAllLines(Paths.get(archivo));
+            String[] nuevo = texto.toLowerCase().split(" ");
+            StringBuilder builder = new StringBuilder();
+            for (String palabra: nuevo){
+                    if(!stopwords.contains(palabra)) {
+                        builder.append(palabra);
+                        builder.append(' ');
+                    }
+            }
+            String result = builder.toString().trim();
+            return result;
+        }
+        catch (Exception e){
+            return null;
+        }
     }
 
     
