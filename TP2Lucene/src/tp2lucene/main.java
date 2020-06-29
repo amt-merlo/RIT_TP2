@@ -3,19 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.luceneindex;
+package tp2lucene;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-/**
 
+//para parsear el HTML
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 /**
  *
  * @author Allison
  */
-public class main2 {
-    
+public class main {
+
     public static List sacarTXT(){ //saca las lineas del txt y las guarda en una lista
     File archivo = null;
     FileReader fr = null;
@@ -24,7 +29,7 @@ public class main2 {
     try {
          // Apertura del fichero y creacion de BufferedReader para poder
          // hacer una lectura comoda (disponer del metodo readLine()).
-         archivo = new File ("C:\\Users\\Allison\\Downloads\\wiki-g2.txt");
+         archivo = new File ("C:\\Users\\Allison\\Downloads\\wiki-p2.txt");
          fr = new FileReader (archivo);
          br = new BufferedReader(fr);
 
@@ -95,13 +100,57 @@ public class main2 {
         
         return paginas;
     }
-    
 
     
-     public static void main(String[] args) {
+    public static ArrayList parser(String pagina){
+        Document document = Jsoup.parse(pagina);
+        List encabezados;
+        List referencias;
+        List body;
+        ArrayList partes = new ArrayList(4);
+        
+        //Saca el título
+        String titulo = document.title();
+        //Saca el texto de los headers
+        encabezados = document.select("h1, h2, h3, h4, h5, h6, h7, h8, h9").eachText();
+        //saca el texto de las referencias
+        referencias = document.select("a").eachText();
+        //saca el texto del body
+        body = document.select("body").eachText();
+       
+        partes.add(titulo);
+        partes.add(encabezados);
+        partes.add(referencias);
+        partes.add(body);
+        return partes; //este array se usa para indexar
+    }
+
+    
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        
         List cadena = sacarTXT(); //devuelve una lista con las lineas del txt
         List paginas = dividirPaginas(cadena); //devuelve una lista con las paginas
-        System.out.println(paginas.get(0));
-     }
-}
+        System.out.println(paginas.get(2));
+        String paginaEjm = paginas.get(2).toString();
+        parser(paginaEjm);
+        
+        try {
+            new indexer();
+        } catch (Exception ex) {
+            System.out.println("Cannot Start :(");
+        }
+        
+            
+            
 
+        
+      
+      
+      
+    }
+    
+    
+}
