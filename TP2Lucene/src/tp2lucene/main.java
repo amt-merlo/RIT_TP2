@@ -143,7 +143,7 @@ public class main {
             indexer index = new indexer();
             IndexWriter indice1= index.crearIndice();
             
-            for (Object pagina : paginas){
+            for (Object pagina : paginas){ //indexa todas las páginas
                 ArrayList parsed = parser(pagina.toString());
                 index.indexHTML(parsed, indice1);
             }
@@ -152,12 +152,7 @@ public class main {
         } catch (Exception ex) {
             System.out.println("Cannot Start :(");
         }
-        
-        
-            
-            
-
-        
+       
       
       
       
