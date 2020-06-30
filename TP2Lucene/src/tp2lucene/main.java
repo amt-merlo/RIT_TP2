@@ -9,12 +9,16 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import org.apache.lucene.index.IndexWriter;
 
 //para parsear el HTML
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
+//para indexar
+import tp2lucene.indexer;
 /**
  *
  * @author Allison
@@ -107,7 +111,7 @@ public class main {
         List encabezados;
         List referencias;
         List body;
-        ArrayList partes = new ArrayList(4);
+        ArrayList partes = new ArrayList();
         
         //Saca el título
         String titulo = document.title();
@@ -133,15 +137,22 @@ public class main {
         
         List cadena = sacarTXT(); //devuelve una lista con las lineas del txt
         List paginas = dividirPaginas(cadena); //devuelve una lista con las paginas
-        System.out.println(paginas.get(2));
-        String paginaEjm = paginas.get(2).toString();
-        parser(paginaEjm);
+        
         
         try {
-            new indexer();
+            indexer index = new indexer();
+            IndexWriter indice1= index.crearIndice();
+            
+            for (Object pagina : paginas){
+                ArrayList parsed = parser(pagina.toString());
+                index.indexHTML(parsed, indice1);
+            }
+            indice1.close();
+            
         } catch (Exception ex) {
             System.out.println("Cannot Start :(");
         }
+        
         
             
             
