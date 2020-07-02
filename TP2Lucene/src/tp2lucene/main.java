@@ -25,7 +25,7 @@ import tp2lucene.indexer;
  */
 public class main {
 
-    public static List sacarTXT(){ //saca las lineas del txt y las guarda en una lista
+    public static List sacarTXT(String path){ //saca las lineas del txt y las guarda en una lista
     File archivo = null;
     FileReader fr = null;
     BufferedReader br = null;
@@ -33,7 +33,7 @@ public class main {
     try {
          // Apertura del fichero y creacion de BufferedReader para poder
          // hacer una lectura comoda (disponer del metodo readLine()).
-         archivo = new File ("C:\\Users\\Allison\\Downloads\\wiki-p2.txt");
+         archivo = new File (path);
          fr = new FileReader (archivo);
          br = new BufferedReader(fr);
 
@@ -134,8 +134,8 @@ public class main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
-        List cadena = sacarTXT(); //devuelve una lista con las lineas del txt
+        String path = "C:\\Users\\Allison\\Downloads\\wiki-p1.txt"; 
+        List cadena = sacarTXT(path); //devuelve una lista con las lineas del txt
         List paginas = dividirPaginas(cadena); //devuelve una lista con las paginas
         
         
@@ -150,9 +150,11 @@ public class main {
             indice1.close();
             
         } catch (Exception ex) {
-            System.out.println("Cannot Start :(");
+            System.out.println("Problema para crear el índice :(");
         }
        
+      
+      
       
       
       
