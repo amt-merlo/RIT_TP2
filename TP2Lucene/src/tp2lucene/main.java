@@ -126,6 +126,9 @@ public class main {
         body = document.select("body").eachText();
        
         partes.add(titulo);
+        for(Object encabezado: encabezados){
+            encabezado = removerStopWords(encabezado.toString());
+        }
         partes.add(encabezados);
         partes.add(referencias);
         for(Object bod: body){
